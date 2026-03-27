@@ -1,32 +1,67 @@
-inventario={}
+import csv
+
+inventario=[]
 
 def incluir_producto(nombre, precio_unidad, cantidad):
-    inventario[nombre] = {"precio_unidad": precio_unidad, "cantidad": cantidad}
+    producto = {
+        "nombre":nombre,
+        "precio_unidad": precio_unidad,
+        "cantidad": cantidad
+        }
+    inventario.append(producto)
 
 def eliminar_producto(nombre):
-    if nombre in inventario:
-        del inventario[nombre]
-        print(f"producto '{nombre}' eliminado del inventario. ")
-    else:
-        print(f"producto '{nombre}' no encontrado en el inventario.")
+    for producto in inventario:
+        if producto['nombre']== nombre:
+            inventario.remove(producto)
+            print(f"Producto {nombre} eliminado. ")
 
-def actualizar_producto(nombre, precio_unidad, cantidad):
-    if nombre in inventario:
-        inventario[nombre]["precio_unidad"] = precio_unidad
-        inventario[nombre]["cantidad"] = cantidad
-    else:
-        print("producto no encontrado")
+def actualizar_producto(nombre, precio_unidad=None, cantidad=None):
+    for producto in inventario:
+        if producto['nombre']==nombre:
+            if precio_unidad is not None:
+                producto['precio_unidad']=precio_unidad
+        if cantidad is not None:
+            producto['cantidad']=cantidad
+        print(f"Producto {nombre} actualizado. ")
+        return
+
+    print(f"producto{nombre} no encontrado.")
 
 def mostrar_producto(nombre):
-    if nombre in inventario:
-        print(f"Nombre: {nombre}, Precio unidad: {inventario[nombre]["precio_unidad"]}, Cantidad: {inventario[nombre]["cantidad"]}")
-    else:
-        print("producto no encontrado.")
+    for producto in inventario:
+        if producto['nombre']== nombre:
+            print(f"Nombre: {producto['nombre']}, Precio unidad: {producto['precio_unidad']}, Cantidad: {producto['cantidad']}")
+            return
+    print(f"Producto {nombre} no encontrado")
+
 
 def mostrar_inventario():
-    print("Inventario completo:")
-    for nombre,producto in inventario.items():
-        print(f"Nombre:{nombre}, Precio unidad: {producto['precio_unidad']}, Cantidad: {producto['cantidad']}")
+    for nombre,producto in inventario:
+        print(f"Nombre:{producto['nombre']}, Precio unidad: {producto['precio_unidad']}, Cantidad: {producto['cantidad']}")
+        
+def guardar_inventario(archivo):
+    with open(archivo, 'w', newline='') as csvfile:
+        fieldnames=['nombre', 'precio_unidad', 'cantidad']
+        writer= csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for producto in inventario:
+            writer.writerow(producto)
+
+def estadisticas(inventario):
+    if not inventario:
+        print("Inventario vacío")
+        return
+    valor_total= sum(producto['precio_unidad']* producto['cantidad'] for producto in inventario)
+    cantidad_total= sum(producto['cantidas'] for producto in inventario)
+    producto_caro= max(inventario, key=lambda producto: producto['precio_unidad'])
+    producto_cantidad= max(inventario, key=lambda producto:producto['cantidad'])
+    print("\n=== Estadisticas del inventario ===")
+    print(f"Valor total del inventario:  ${valor_total:.2f}")
+    print(f"Cantidad total de unidades: {cantidad_total}")
+    print(f"Producto mas caro: {producto_caro['nombre']} (${producto_caro['precio_unidad']:.2f})")
+    print(f"Producto con mayor cantidad: {producto_cantidad['nombre']} ({producto_cantidad['cantidad']} unidades)")
+    print("=================================================================\n")
 
 
 
