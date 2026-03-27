@@ -9,7 +9,10 @@ while True:
     print("3.actualizar producto")
     print("4.mostrar un producto")
     print("5.mostrar inventario completo")
-    print("6.salir\n")
+    print("6.estadisticas")
+    print("7.guardar inventario")
+    print("8.cargar inventario")
+    print("9.salir\n")
 #se le pide al usuario que ingrese una opcion del menu,si la opcion no es valida se repetira el menu#
     opcion = input("elija una opcion caballero/dama: ")
 
@@ -36,8 +39,14 @@ while True:
     elif opcion == "5":
         mostrar_inventario()
 
+
+    elif opcion=="6":
+        estadisticas()
+
+    elif opcion == "7":
+        guardar_inventario()
 #con esta opcion detenemos el ciclo y salimos del programa#
-    elif opcion == "6":
+    elif opcion == "9":
         print("Saliendo del programa...")
         break
     else:
