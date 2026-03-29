@@ -1,3 +1,6 @@
+#en este archivo almacenamos las funciones que permiten a las opciones del menu interactivo ejecutarse#
+
+
 import csv
 
 inventario=[]
@@ -83,6 +86,3 @@ def estadisticas(inventario):
     print(f"Producto con mayor cantidad: {producto_cantidad['nombre']} ({producto_cantidad['cantidad']} unidades)")
     print("=================================================================\n")
 
-
-
-#en este archivo almacenamos las funciones que permiten a las opciones del menu interactivo ejecutarse#
