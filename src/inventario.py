@@ -37,7 +37,7 @@ def mostrar_producto(nombre):
 
 
 def mostrar_inventario():
-    for nombre,producto in inventario:
+    for producto in inventario:
         print(f"Nombre:{producto['nombre']}, Precio unidad: {producto['precio_unidad']}, Cantidad: {producto['cantidad']}")
         
 def guardar_inventario(archivo):
@@ -48,12 +48,32 @@ def guardar_inventario(archivo):
         for producto in inventario:
             writer.writerow(producto)
 
+
+def cargar_inventario(archivo):
+    try:
+        with open(archivo, 'r',newline='') as csvfile:
+            reader= csv.DictReader(csvfile)
+            inventario.clear()
+            for row in reader:
+                producto={
+                    'nombre': row['nombre'],
+                    'precio_unidad': float(row['precio_unidad']),
+                    'cantidad': int(row['cantidad'])
+                }
+                inventario.append(producto)
+                print(f"producto cargado: {producto}")
+        print(f"inventario cargado desde {archivo}")
+    except FileNotFoundError:
+        print(f"Error: El archivo{archivo} no existe...")
+    except Exception as e:
+        print(f"Error al cargar inventario:{e}")
+
 def estadisticas(inventario):
     if not inventario:
         print("Inventario vacío")
         return
     valor_total= sum(producto['precio_unidad']* producto['cantidad'] for producto in inventario)
-    cantidad_total= sum(producto['cantidas'] for producto in inventario)
+    cantidad_total= sum(producto['cantidad'] for producto in inventario)
     producto_caro= max(inventario, key=lambda producto: producto['precio_unidad'])
     producto_cantidad= max(inventario, key=lambda producto:producto['cantidad'])
     print("\n=== Estadisticas del inventario ===")

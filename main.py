@@ -41,10 +41,16 @@ while True:
 
 
     elif opcion=="6":
-        estadisticas()
+        estadisticas(inventario)
 
     elif opcion == "7":
-        guardar_inventario()
+        nombre_archivo=input("Ingrese el nombre del archivo para guardar el inventario (ej: inventario.csv):")
+        guardar_inventario(nombre_archivo)
+
+    elif opcion=="8":
+        nombre_archivo= input("ingrese el nombre del archivopara cargar el inventario(ej: inventario.csv)")
+        cargar_inventario(nombre_archivo)
+
 #con esta opcion detenemos el ciclo y salimos del programa#
     elif opcion == "9":
         print("Saliendo del programa...")
